@@ -18,12 +18,12 @@
   }
 
   /* Drop everything that is neither a sheet, inside one, nor holding one. */
-  body *:not(:has(.print-sheet)):not(.print-sheet):not(.print-sheet *) {
+  body:has(.print-sheet) *:not(:has(.print-sheet)):not(.print-sheet):not(.print-sheet *) {
     display: none !important;
   }
 
   /* The wrappers that hold the sheets become plain blocks. */
-  body *:has(.print-sheet) {
+  body:has(.print-sheet) *:has(.print-sheet) {
     display: block !important;
     position: static !important;
     height: auto !important;

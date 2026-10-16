@@ -1,0 +1,69 @@
+/*
+ * Printing the annual report: only the A4 pages go to paper, edge to edge,
+ * one page per sheet. On screen the printable copy is hidden; the studio
+ * shows scaled previews instead.
+ *
+ * Every rule is keyed on body:has(.ar-print-root), so this file does nothing
+ * on pages without the report (it can stay loaded after navigating away).
+ * A named page keeps the zero margin from clashing with report-print.css.
+ */
+.ar-print-root {
+  display: none;
+}
+
+@media print {
+  @page annual-report {
+    size: A4;
+    margin: 0;
+  }
+
+  body:has(.ar-print-root) {
+    height: auto !important;
+    overflow: visible !important;
+    background: white !important;
+    margin: 0 !important;
+  }
+
+  /* Drop everything that is neither the report, inside it, nor holding it. */
+  body:has(.ar-print-root) *:not(:has(.ar-print-root)):not(.ar-print-root):not(.ar-print-root *) {
+    display: none !important;
+  }
+
+  /* The wrappers that hold the report become plain blocks, so nothing clips. */
+  body:has(.ar-print-root) *:has(.ar-print-root) {
+    display: block !important;
+    position: static !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    max-width: none !important;
+    width: auto !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: none !important;
+  }
+
+  .ar-print-root {
+    display: block !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  /* 794 × 1123 px is A4 at 96 dpi, so each page prints at true size. */
+  .ar-print-page {
+    page: annual-report;
+    width: 210mm;
+    height: 297mm;
+    overflow: hidden;
+    break-after: page;
+    break-inside: avoid;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .ar-print-page:last-child {
+    break-after: auto;
+  }
+}

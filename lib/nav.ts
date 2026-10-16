@@ -1,6 +1,7 @@
 import {
   ArrowDownLeft,
   ArrowUpRight,
+  BookMarked,
   BookOpen,
   Building2,
   CalendarCheck,
@@ -76,6 +77,7 @@ export const PAGES = {
   cashFlow: p({ label: "Cash flow", href: "/reports/cash-flow", icon: Waves, group: "Reports", description: "Where cash came from and where it went.", term: "Statement of cash flows" }),
   whoOwesYou: p({ label: "Who owes you", href: "/reports/who-owes-you", icon: FileClock, group: "Reports", description: "Customer balances by how long they've been due.", term: "Accounts receivable ageing" }),
   whatYouOwe: p({ label: "What you owe", href: "/reports/what-you-owe", icon: FileClock, group: "Reports", description: "Supplier balances by how long they've been due.", term: "Accounts payable ageing" }),
+  annualReport: p({ label: "Annual report", href: "/reports/annual-report", icon: BookMarked, group: "Reports", description: "Your year-end report for shareholders: the story, the governance and the audited statements, designed and ready to print." }),
   vat: p({ label: "VAT & taxes", href: "/reports/vat-and-taxes", icon: Building2, group: "Reports", description: "VAT, withholding tax and SSNIT due for the period." }),
 
   journals: p({ label: "Journals", href: "/journals", icon: NotebookPen, group: "Accounting", description: "Every entry in the books, and the ones waiting for approval.", term: "Journal entries", badge: "journalsAwaitingApproval" }),
@@ -134,7 +136,7 @@ export const SECTIONS: Section[] = [
   {
     id: "reports",
     label: "Reports",
-    pages: [{ ...PAGES.reports, label: "All reports" }, PAGES.profitAndLoss, PAGES.balanceSheet, PAGES.cashFlow, PAGES.whoOwesYou, PAGES.whatYouOwe, PAGES.vat],
+    pages: [{ ...PAGES.reports, label: "All reports" }, PAGES.profitAndLoss, PAGES.balanceSheet, PAGES.cashFlow, PAGES.whoOwesYou, PAGES.whatYouOwe, PAGES.vat, PAGES.annualReport],
   },
   {
     id: "settings",

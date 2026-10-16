@@ -112,6 +112,7 @@ export const ACCOUNTS: Account[] = [
   A("6300", "Loan interest", "expense", "Finance costs", "Interest on the Stanbic term loan."),
   A("6400", "Professional fees", "expense", "Running costs", "Audit, legal and consulting fees."),
   A("6500", "Marketing", "expense", "Running costs", "Radio, print and online advertising."),
+  A("6900", "Income tax expense", "expense", "Tax", "Corporate income tax charged on the year's profit (25%)."),
   A("9999", "Suspense", "asset", "Suspense", "Holding account for money you can't place yet. Should be cleared to zero.", { normal: "debit" }),
 ]
 
@@ -916,6 +917,13 @@ for (const eom of ["2026-01-31", "2026-02-28", "2026-03-31", "2026-04-30", "2026
       lines.push(isIncome ? { accountCode: code, debit: 0, credit: amt } : { accountCode: code, debit: amt, credit: 0 })
       net += isIncome ? amt : -amt
       totals.set(code, r2((totals.get(code) ?? 0) + (isIncome ? -amt : amt)))
+    }
+    // Corporate income tax at 25% of the month's profit.
+    if (net > 0) {
+      const tax = r2(net * 0.25)
+      lines.push({ accountCode: "6900", debit: tax, credit: 0 })
+      net -= tax
+      totals.set("6900", r2((totals.get("6900") ?? 0) + tax))
     }
     lines.push(net >= 0 ? { accountCode: "3100", description: "Profit for the month, carried in summary", debit: r2(net), credit: 0 } : { accountCode: "3100", description: "Loss for the month, carried in summary", debit: 0, credit: r2(-net) })
     je({

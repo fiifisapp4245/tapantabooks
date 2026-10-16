@@ -20,6 +20,9 @@ export type Status =
   | "applied"
   | "needs_attention"
   | "processing"
+  | "in_review"
+  | "approved"
+  | "published"
 
 type Tone = "neutral" | "warning" | "info" | "info-outline" | "success" | "void" | "destructive"
 
@@ -43,6 +46,9 @@ const MAP: Record<Status, { label: string; tone: Tone }> = {
   applied: { label: "Applied", tone: "success" },
   needs_attention: { label: "Needs attention", tone: "warning" },
   processing: { label: "Processing", tone: "info" },
+  in_review: { label: "In review", tone: "warning" },
+  approved: { label: "Approved", tone: "success" },
+  published: { label: "Published", tone: "info" },
 }
 
 const TONES: Record<Tone, string> = {
