@@ -1,0 +1,71 @@
+/*
+ * Printing a report: only the sheets go to paper, one sheet per page.
+ * Everything that doesn't hold a sheet (sidebar, top bar, filters, buttons,
+ * toasts) is dropped, and the containers around the sheets lose their
+ * layout so nothing is clipped. Sheets always print light.
+ */
+@media print {
+  @page {
+    size: A4;
+    margin: 16mm;
+  }
+
+  html,
+  body {
+    height: auto !important;
+    overflow: visible !important;
+    background: white !important;
+  }
+
+  /* Drop everything that is neither a sheet, inside one, nor holding one. */
+  body *:not(:has(.print-sheet)):not(.print-sheet):not(.print-sheet *) {
+    display: none !important;
+  }
+
+  /* The wrappers that hold the sheets become plain blocks. */
+  body *:has(.print-sheet) {
+    display: block !important;
+    position: static !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    max-width: none !important;
+    width: auto !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: none !important;
+    box-shadow: none !important;
+  }
+
+  .print-sheet {
+    --card: #ffffff;
+    --foreground: #1e1e1e;
+    --card-foreground: #1e1e1e;
+    --muted: #f2f3f5;
+    --muted-foreground: #5c5c5c;
+    --border: #d9d9d9;
+    --negative: #b0300a;
+    color: var(--foreground) !important;
+    background: white !important;
+    border: 0 !important;
+    padding: 0 !important;
+    break-after: page;
+    break-inside: auto;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .print-sheet:last-of-type {
+    break-after: auto;
+  }
+
+  /* Report lines are buttons for drill-down on screen; on paper they're plain text. */
+  .print-sheet button {
+    color: inherit !important;
+    background: none !important;
+  }
+  .print-sheet svg {
+    display: none !important;
+  }
+}
