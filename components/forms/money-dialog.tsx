@@ -14,7 +14,6 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { AccountPicker, ContactPicker } from "@/components/patterns/pickers"
 import { Field, SubmitReason, useDiscardGuard } from "@/components/patterns/form-bits"
@@ -33,8 +32,9 @@ export type MoneyPrefill = {
 }
 
 /**
- * Record money that has no invoice or bill. Opens from + New, ⌘K, and
- * prefilled from a bank line on Reconcile.
+ * Record money that has no invoice or bill. Opens from the Home notes, ⌘K,
+ * and prefilled from a bank line on Reconcile. The direction is set by
+ * whatever opened it, so the form never offers to switch.
  */
 export function MoneyDialog({ open, onClose, prefill }: { open: boolean; onClose: () => void; prefill?: MoneyPrefill }) {
   const { accounts, recordMoney } = useLedger()
@@ -93,12 +93,6 @@ export function MoneyDialog({ open, onClose, prefill }: { open: boolean; onClose
             <DialogTitle className="font-heading text-xl">Record money {f.direction}</DialogTitle>
             <DialogDescription>For money that didn&apos;t come from an invoice or go to a bill.</DialogDescription>
           </DialogHeader>
-          <Tabs value={f.direction} onValueChange={(v) => setF((x) => ({ ...x, direction: v as "in" | "out", categoryCode: "", taxCode: "EXEMPT" }))}>
-            <TabsList className="h-9 w-full">
-              <TabsTrigger value="in" className="data-[state=active]:bg-card">Money in</TabsTrigger>
-              <TabsTrigger value="out" className="data-[state=active]:bg-card">Money out</TabsTrigger>
-            </TabsList>
-          </Tabs>
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label="Amount (GH₵)" htmlFor="m-amount">
               <Input id="m-amount" inputMode="decimal" value={f.amount} onChange={(e) => set("amount", e.target.value.replace(/[^0-9.]/g, ""))} placeholder="0.00" className="bg-card text-right tabular" autoFocus />
