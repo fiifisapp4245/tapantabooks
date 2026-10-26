@@ -256,8 +256,9 @@ function DataTableInner<T>({
           <CardGrid rows={rows} onRowClick={onRowClick} empty={empty} labelOf={labelOf} />
         </div>
       ) : (
-      // The table is the only thing that scrolls: it fills whatever height its page gives it.
-      <div className="overflow-auto rounded-xl border bg-card md:min-h-0 md:flex-1">
+      // The table is the only thing that scrolls. Its frame ends at the last row,
+      // and only shrinks (and scrolls) when the rows outgrow the page's height.
+      <div className="overflow-auto rounded-xl border bg-card md:min-h-0 md:flex-initial">
         <table className="w-full caption-bottom border-separate border-spacing-0 text-sm">
           <thead className="sticky top-0 z-[2] bg-card">
             {table.getHeaderGroups().map((hg) => (
